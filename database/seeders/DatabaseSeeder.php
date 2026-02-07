@@ -53,5 +53,7 @@ class DatabaseSeeder extends Seeder
         Student::factory()->count(144)->create();
         Teacher::factory()->count(28)->create();
         Subject::factory()->count(28)->create();
+        
+        $this->call(AdminUserSeeder::class);
     }
 }
