@@ -4,6 +4,7 @@ namespace Database\Factories;
 
 use Illuminate\Database\Eloquent\Factories\Factory;
 use App\Models\Teacher;
+use Illuminate\Support\Facades\Hash;
 
 class TeacherFactory extends Factory
 {
@@ -15,6 +16,7 @@ class TeacherFactory extends Factory
             'first_name' => $this->faker->firstName,
             'last_name'  => $this->faker->lastName,
             'address'    => $this->faker->address,
+            'password' => Hash::make('teacher123'),
         ];
     }
 }

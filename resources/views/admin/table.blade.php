@@ -23,9 +23,7 @@
             @forelse($records as $row)
                 <tr>
                     @foreach($columns as $col)
-                        <td>
-                            {{ $row->$col ?? '—' }}
-                        </td>
+                        <td>{{ $row->$col ?? '—' }}</td>
                     @endforeach
 
                     <td>
@@ -56,13 +54,11 @@
             @endforelse
         </tbody>
     </table>
+
+    {{-- Пагинация --}}
     <div class="mt-3">
         {{ $records->links() }}
     </div>
 
 </div>
-
 @endsection
-
-
-

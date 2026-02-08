@@ -59,26 +59,15 @@ class AdminController extends Controller
     // Просмотр таблицы
     public function showTable($table)
     {
-        $records = DB::table($table)->paginate(10); // 10 записей на страницу
+        $records = DB::table($table)->paginate(10);
 
-        // колонки для вывода
-        if ($records->isEmpty()) {
-            $columns = [];
-        } else {
-            $columns = array_diff(
-                array_keys((array) $records->first()),
-                ['id', 'created_at', 'updated_at']
-            );
-        }
+        $hiddenColumns = ['password', 'remember_token', 'created_at', 'updated_at']; // колонки, которые не показываем
 
-        // Если есть связи — заменяем *_id на читаемые значения
+        // если есть связи, подменяем *_id на читаемые значения
         if (isset($this->relations[$table])) {
             foreach ($records as $record) {
                 foreach ($this->relations[$table] as $column => $relation) {
-
-                    if (!isset($record->$column)) {
-                        continue;
-                    }
+                    if (!isset($record->$column)) continue;
 
                     $value = DB::table($relation['table'])
                         ->where('id', $record->$column)
@@ -89,8 +78,23 @@ class AdminController extends Controller
             }
         }
 
+        // формируем список колонок для заголовков
+        if ($records->isEmpty()) {
+            $columns = [];
+        } else {
+            $columns = array_diff(array_keys((array) $records->first()), $hiddenColumns);
+        }
+
+        // удаляем скрытые поля из каждой записи
+        foreach ($records as $record) {
+            foreach ($hiddenColumns as $hidden) {
+                unset($record->$hidden);
+            }
+        }
+
         return view('admin.table', compact('table', 'records', 'columns'));
     }
+
 
 
 
