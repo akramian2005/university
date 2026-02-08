@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Database\Eloquent\Model;
 
 class Student extends Model
@@ -17,7 +18,8 @@ class Student extends Model
         'region_id',
         'nationality_id',
         'group_id',
-        'form_of_study_id'
+        'form_of_study_id',
+        'password',
     ];
 
     public function group()

@@ -13,7 +13,7 @@ class DepartmentFactory extends Factory
     public function definition()
     {
         return [
-            'name' => 'Department ' . $this->faker->unique()->word,
+            'name' => $this->faker->unique()->word,
             'faculty_id' => Faculty::inRandomOrder()->first()->id,
         ];
     }

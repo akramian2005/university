@@ -13,7 +13,7 @@ class GroupFactory extends Factory
     public function definition()
     {
         return [
-            'name' => 'Group ' . $this->faker->unique()->numberBetween(101, 9999),
+            'name' => $this->faker->unique()->numberBetween(101, 9999),
             'speciality_id' => Speciality::inRandomOrder()->first()->id,
         ];
     }

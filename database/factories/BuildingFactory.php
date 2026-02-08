@@ -12,7 +12,7 @@ class BuildingFactory extends Factory
     public function definition()
     {
         return [
-            'name' => 'Building ' . $this->faker->unique()->randomElement(['A','B','C']),
+            'name' => $this->faker->unique()->randomElement(['A','B','C']),
         ];
     }
 }
