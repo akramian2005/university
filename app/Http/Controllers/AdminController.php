@@ -8,6 +8,32 @@ use Illuminate\Support\Facades\Schema;
 
 class AdminController extends Controller
 {
+    protected array $relations = [
+        'students' => [
+            'gender_id' => ['table' => 'genders', 'field' => 'name'],
+            'region_id' => ['table' => 'regions', 'field' => 'name'],
+            'nationality_id' => ['table' => 'nationalities', 'field' => 'name'],
+            'group_id' => ['table' => 'groups', 'field' => 'name'],
+            'form_of_study_id' => ['table' => 'form_of_studies', 'field' => 'name'],
+        ],
+
+        'groups' => [
+            'speciality_id' => ['table' => 'specialities', 'field' => 'name'],
+        ],
+
+        'specialities' => [
+            'faculty_id' => ['table' => 'faculties', 'field' => 'name'],
+        ],
+        'departments' => [
+            'faculty_id' => ['table' => 'faculties', 'field' => 'name'],
+        ],
+
+        'teachers' => [
+            'gender_id' => ['table' => 'genders', 'field' => 'name'],
+            'department_id' => ['table' => 'departments', 'field' => 'name'],
+        ],
+    ];
+
     // Список таблиц (белый список — безопасно)
     public function index()
     {
@@ -33,11 +59,40 @@ class AdminController extends Controller
     // Просмотр таблицы
     public function showTable($table)
     {
-        $records = DB::table($table)->get();
-        $columns = Schema::getColumnListing($table);
+        $records = DB::table($table)->paginate(10); // 10 записей на страницу
+
+        // колонки для вывода
+        if ($records->isEmpty()) {
+            $columns = [];
+        } else {
+            $columns = array_diff(
+                array_keys((array) $records->first()),
+                ['id', 'created_at', 'updated_at']
+            );
+        }
+
+        // Если есть связи — заменяем *_id на читаемые значения
+        if (isset($this->relations[$table])) {
+            foreach ($records as $record) {
+                foreach ($this->relations[$table] as $column => $relation) {
+
+                    if (!isset($record->$column)) {
+                        continue;
+                    }
+
+                    $value = DB::table($relation['table'])
+                        ->where('id', $record->$column)
+                        ->value($relation['field']);
+
+                    $record->$column = $value ?? '—';
+                }
+            }
+        }
 
         return view('admin.table', compact('table', 'records', 'columns'));
     }
+
+
 
     // Форма создания записи
     public function create($table)
