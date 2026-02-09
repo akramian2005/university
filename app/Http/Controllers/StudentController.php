@@ -1,0 +1,14 @@
+<?php
+
+namespace App\Http\Controllers;
+
+use Illuminate\Support\Facades\Auth;
+
+class StudentController extends Controller
+{
+    public function dashboard()
+    {
+        $student = Auth::guard('student')->user();
+        return view('student.dashboard', compact('student'));
+    }
+}

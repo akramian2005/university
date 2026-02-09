@@ -4,17 +4,20 @@ namespace App\Http\Controllers;
 
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Http\Request;
 use App\Models\User;
 use App\Models\Student;
-use Illuminate\Http\Request;
+use App\Models\Teacher;
 
 class AuthController extends Controller
 {
+    // Показываем форму логина
     public function showLogin()
     {
         return view('auth.login');
     }
 
+    // Логин
     public function login(Request $request)
     {
         $request->validate([
@@ -25,28 +28,44 @@ class AuthController extends Controller
         $id = $request->id;
         $password = $request->password;
 
-        // проверка админа
+        // Проверка админа
         $admin = User::where('id', $id)->first();
         if ($admin && Hash::check($password, $admin->password)) {
-            Auth::login($admin);
+            Auth::guard('web')->login($admin); // guard для админа
             return redirect()->intended('/admin');
         }
 
-        // проверка студента
+        // Проверка студента
         $student = Student::where('id', $id)->first();
         if ($student && Hash::check($password, $student->password)) {
-            Auth::login($student); // студент тоже в Auth
-            return redirect()->intended('/student'); // можно отдельная панель для студентов
+            Auth::guard('student')->login($student); // guard для студента
+            return redirect()->intended('/student');
         }
 
-        return back()->withErrors(['id' => 'ID или пароль неверны']);
+        // Проверка учителя
+        $teacher = Teacher::where('id', $id)->first();
+        if ($teacher && Hash::check($password, $teacher->password)) {
+            Auth::guard('teacher')->login($teacher); // guard для учителя
+            return redirect()->intended('/teacher');
+        }
+
+        // Если ничего не подошло
+        return back()->withErrors([
+            'id' => 'ID или пароль неверны'
+        ]);
     }
 
+    // Логаут
     public function logout(Request $request)
     {
-        Auth::logout();
+        // Логаут из всех guards
+        Auth::guard('web')->logout();
+        Auth::guard('student')->logout();
+        Auth::guard('teacher')->logout();
+
         $request->session()->invalidate();
         $request->session()->regenerateToken();
+
         return redirect('/login');
     }
 }

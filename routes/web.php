@@ -4,6 +4,13 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Middleware\AdminMiddleware; // <- один импорт
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\TeacherController;
+use App\Http\Controllers\StudentController;
+
+
+Route::get('/', function () {
+    return view('index');
+});
 
 Route::prefix('admin')->middleware(['auth', 'admin'])->group(function () {
     Route::get('/', [AdminController::class, 'index'])->name('admin.index');
@@ -26,6 +33,18 @@ Route::prefix('admin')->middleware(['auth', 'admin'])->group(function () {
     Route::delete('/table/{table}/{id}', [AdminController::class, 'destroy'])
         ->name('admin.destroy');
 });
+
+
+// Студент
+Route::prefix('student')->middleware('auth:student')->group(function () {
+    Route::get('/', [StudentController::class, 'dashboard'])->name('student.dashboard');
+});
+
+// Учитель
+Route::prefix('teacher')->middleware('auth:teacher')->group(function () {
+    Route::get('/', [TeacherController::class, 'dashboard'])->name('teacher.dashboard');
+});
+
 
 
 Route::get('/login', [AuthController::class, 'showLogin'])->name('login');
