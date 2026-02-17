@@ -10,7 +10,8 @@ use App\Http\Controllers\StudentController;
 
 Route::get('/', function () {
     return view('index');
-});
+})->name('home');
+
 
 Route::prefix('admin')->middleware(['auth', 'admin'])->group(function () {
     Route::get('/', [AdminController::class, 'index'])->name('admin.index');
@@ -44,8 +45,6 @@ Route::prefix('student')->middleware('auth:student')->group(function () {
 Route::prefix('teacher')->middleware('auth:teacher')->group(function () {
     Route::get('/', [TeacherController::class, 'dashboard'])->name('teacher.dashboard');
 });
-
-
 
 Route::get('/login', [AuthController::class, 'showLogin'])->name('login');
 Route::post('/login', [AuthController::class, 'login']);

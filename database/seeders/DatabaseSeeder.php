@@ -5,7 +5,7 @@ namespace Database\Seeders;
 use App\Models\User;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
-use App\Models\{Building, Classroom, Faculty, Department, Speciality, Group, Student, Teacher, Subject, Gender, Region, Nationality, FormOfStudy};
+use App\Models\{Building, Classroom, Faculty, Department, Speciality, Group, Student, Teacher, Subject, Gender, Region, Nationality, FormOfStudy, StudyMode};
 
 class DatabaseSeeder extends Seeder
 {
@@ -32,6 +32,12 @@ class DatabaseSeeder extends Seeder
             ['name' => 'Budjet'],
             ['name' => 'Contract']
         ]);
+
+        StudyMode::insert([
+            ['name' => 'Full-time'],
+            ['name' => 'Part-time'],
+        ]);
+
 
         Nationality::insert([
             ['name'=>'kyrgyz'], ['name'=>'russian'], ['name'=>'kazakh'], 

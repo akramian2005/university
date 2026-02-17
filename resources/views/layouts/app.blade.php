@@ -8,13 +8,10 @@
 <body>
     <nav class="navbar navbar-expand-lg navbar-light bg-light mb-4">
         <div class="container">
-            <a class="navbar-brand" href="{{ route('admin.index') }}">Panel</a>
+            <a class="navbar-brand" href="{{ route('home') }}">Panel</a>
             <div class="collapse navbar-collapse">
                 <ul class="navbar-nav ms-auto">
                     @auth
-                        <li class="nav-item">
-                            <span class="nav-link">Hello, {{ Auth::user()->name }}</span>
-                        </li>
                         <li class="nav-item">
                             <form method="POST" action="{{ route('logout') }}">
                                 @csrf
