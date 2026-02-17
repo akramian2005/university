@@ -73,6 +73,15 @@ class DatabaseSeeder extends Seeder
             SemestersTableSeeder::class,
         ]);
 
+        $this->call([
+            // SubjectsSeeder::class,
+            // TeachersSeeder::class,
+            StreamsSeeder::class,
+            SubjectTeacherSeeder::class,
+            // SemestersSeeder::class,
+            RegistrationsSeeder::class,
+        ]);
+
 
     }
 }

@@ -6,6 +6,7 @@ use App\Http\Controllers\AdminController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\TeacherController;
 use App\Http\Controllers\StudentController;
+use App\Http\Controllers\RegistrationController;
 
 
 Route::get('/', function () {
@@ -44,9 +45,39 @@ Route::prefix('student')->middleware('auth:student')->group(function () {
 // Учитель
 Route::prefix('teacher')->middleware('auth:teacher')->group(function () {
     Route::get('/', [TeacherController::class, 'dashboard'])->name('teacher.dashboard');
+
+    Route::get('/subjects', [TeacherController::class, 'mySubjects'])
+    ->name('teacher.subjects');
 });
 
 Route::get('/login', [AuthController::class, 'showLogin'])->name('login');
 Route::post('/login', [AuthController::class, 'login']);
 Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 
+Route::prefix('student')->middleware('auth:student')->group(function () {
+    Route::get('registrations/create', [RegistrationController::class, 'create'])
+        ->name('registrations.create');
+
+    Route::post('registrations', [RegistrationController::class, 'store'])
+        ->name('registrations.store');
+
+            // Просмотр своих регистраций
+    Route::get('registrations', [RegistrationController::class, 'student'])->name('student.registrations');
+
+
+    // AJAX для потоков
+    Route::get('streams', [RegistrationController::class, 'getStreams']);
+    
+    // AJAX для учителей
+    Route::get('teachers', [RegistrationController::class, 'getTeachers']);
+});
+
+
+// Route::prefix('teacher')->middleware('auth:teacher')->group(function () {
+//     Route::get('/', [TeacherController::class, 'dashboard'])->name('teacher.dashboard');
+// });
+
+Route::prefix('student')->middleware('auth:student')->group(function () {
+    Route::get('/registrations', [RegistrationController::class, 'student'])
+        ->name('student.registrations');
+});

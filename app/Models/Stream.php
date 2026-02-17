@@ -4,12 +4,18 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Semester extends Model
+class Stream extends Model
 {
-    protected $fillable = ['name', 'start_month', 'end_month'];
+    protected $fillable = ['name', 'subject_id'];
+
+    public function subject()
+    {
+        return $this->belongsTo(Subject::class);
+    }
 
     public function registrations()
     {
         return $this->hasMany(Registration::class);
     }
 }
+

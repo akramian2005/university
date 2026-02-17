@@ -46,10 +46,15 @@ class Student extends Authenticatable
     {
         return $this->belongsTo(FormOfStudy::class);
     }
-    
+
         public function studyMode()
     {
         return $this->belongsTo(StudyMode::class);
+    }
+    
+    public function registrations()
+    {
+        return $this->hasMany(Registration::class);
     }
 
 }

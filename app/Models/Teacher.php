@@ -16,4 +16,16 @@ class Teacher extends Authenticatable
         'address',
         'password',
     ];
+    
+    public function subjects()
+    {
+        return $this->belongsToMany(Subject::class, 'subject_teacher', 'teacher_id', 'subject_id');
+    }
+
+    // Регистрации по учителю
+    public function registrations()
+    {
+        return $this->hasMany(Registration::class);
+    }
 }
+
