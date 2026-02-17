@@ -10,13 +10,13 @@ return [
         'students',
         'teachers',
         'subjects',
-        'genders',
+        // 'genders',
         'regions',
         'nationalities',
-        'form_of_studies',
+        // 'form_of_studies',
         'buildings',
         'classrooms',
-        'study_modes',
+        // 'study_modes',
     ],
 
 ];
