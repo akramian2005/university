@@ -7,6 +7,7 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\TeacherController;
 use App\Http\Controllers\StudentController;
 use App\Http\Controllers\RegistrationController;
+use App\Http\Controllers\ScheduleController; // <- импорт контроллера расписания
 
 Route::get('/', function () {
     return view('index');
@@ -45,6 +46,12 @@ Route::prefix('teacher')->middleware('auth:teacher')->group(function () {
 
     Route::get('/subjects', [TeacherController::class, 'mySubjects'])
     ->name('teacher.subjects');
+
+    Route::get('/schedule', [ScheduleController::class, 'teacher'])
+        ->name('teacher.schedule');
+
+
+
 });
 
 Route::get('/login', [AuthController::class, 'showLogin'])->name('login');
@@ -66,6 +73,15 @@ Route::prefix('student')->middleware('auth:student')->group(function () {
     
     // AJAX для учителей
     Route::get('teachers', [RegistrationController::class, 'getTeachers']);
+
+    Route::get('/', [StudentController::class, 'dashboard'])
+        ->name('student.dashboard');
+
+    Route::get('/schedule', [ScheduleController::class, 'student'])
+        ->name('student.schedule');
+
+
+
 });
 
 

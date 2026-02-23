@@ -12,5 +12,10 @@
     <a href="{{ route('student.registrations') }}" class="btn btn-primary mt-3">
         View My Registrations
     </a>
+
+    <a href="{{ route('student.schedule') }}" class="btn btn-primary mt-3">
+        View Schedule
+    </a>
+
 </div>
 @endsection

@@ -5,7 +5,7 @@ namespace Database\Seeders;
 use App\Models\User;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
-use App\Models\{Building, Classroom, Faculty, Department, Speciality, Group, Student, Teacher, Subject, Gender, Region, Nationality, FormOfStudy, StudyMode, Year, Month, Semester};
+use App\Models\{Building, Classroom, Faculty, Department, Speciality, Group, Student, Teacher, Subject, Gender, Region, Nationality, FormOfStudy, StudyMode, Year, Month, Semester, Period, Schedule};
 
 class DatabaseSeeder extends Seeder
 {
@@ -81,6 +81,11 @@ class DatabaseSeeder extends Seeder
             // SemestersSeeder::class,
             RegistrationsSeeder::class,
         ]);
+        $this->call([
+            PeriodsSeeder::class,
+            SchedulesSeeder::class,
+        ]);
+
 
 
     }
