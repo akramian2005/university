@@ -8,11 +8,9 @@ use App\Http\Controllers\TeacherController;
 use App\Http\Controllers\StudentController;
 use App\Http\Controllers\RegistrationController;
 
-
 Route::get('/', function () {
     return view('index');
 })->name('home');
-
 
 Route::prefix('admin')->middleware(['auth', 'admin'])->group(function () {
     Route::get('/', [AdminController::class, 'index'])->name('admin.index');
@@ -35,7 +33,6 @@ Route::prefix('admin')->middleware(['auth', 'admin'])->group(function () {
     Route::delete('/table/{table}/{id}', [AdminController::class, 'destroy'])
         ->name('admin.destroy');
 });
-
 
 // Студент
 Route::prefix('student')->middleware('auth:student')->group(function () {
@@ -63,7 +60,6 @@ Route::prefix('student')->middleware('auth:student')->group(function () {
 
             // Просмотр своих регистраций
     Route::get('registrations', [RegistrationController::class, 'student'])->name('student.registrations');
-
 
     // AJAX для потоков
     Route::get('streams', [RegistrationController::class, 'getStreams']);

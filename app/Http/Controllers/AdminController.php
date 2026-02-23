@@ -99,9 +99,6 @@ class AdminController extends Controller
         return view('admin.table', compact('table', 'records', 'columns'));
     }
 
-
-
-
     // Форма создания записи
     public function create($table)
     {
