@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @section('content')
-<h2>Edit {{ ucfirst($table) }}</h2>
+<h2>Редактировать {{ ucfirst($table) }}</h2>
 
 <form method="POST" action="{{ route('admin.update', [$table, $record->id]) }}">
     @csrf
@@ -21,6 +21,6 @@
         </div>
     @endforeach
 
-    <button class="btn btn-primary">Save</button>
+    <button class="btn btn-primary">Сохранить</button>
 </form>
 @endsection

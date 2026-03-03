@@ -3,41 +3,36 @@
 @extends('layouts.app')
 
 @section('content')
-<div class="container">
-    <h2>My Subjects</h2>
-    <p>Teacher: {{ $teacher->first_name }} {{ $teacher->last_name }} (ID: {{ $teacher->id }})</p>
+<div class="container mt-4">
+    <h2 class="mb-4">Мои предметы</h2>
+    <p>Преподаватель: <strong>{{ $teacher->first_name }} {{ $teacher->last_name }}</strong> (ID: {{ $teacher->id }})</p>
 
     @if($subjects->isEmpty())
-        <p>No subjects assigned yet.</p>
+        <div class="alert alert-info mt-3">У вас пока нет назначенных предметов.</div>
     @else
-        <table class="table table-bordered">
-            <thead>
-                <tr>
-                    <th>Subject</th>
-                    <th>Streams</th>
-                </tr>
-            </thead>
-            <tbody>
-                @foreach($subjects as $subject)
-                    <tr>
-                        <td>{{ $subject->name }}</td>
-                        <td>
+        <div class="row">
+            @foreach($subjects as $subject)
+                <div class="col-md-6 mb-3">
+                    <div class="card shadow-sm h-100">
+                        <div class="card-header bg-primary text-white">
+                            {{ $subject->name }}
+                        </div>
+                        <div class="card-body">
+                            <h6>Потоки:</h6>
                             @if($subject->streams->isEmpty())
-                                None
+                                <p>Нет потоков</p>
                             @else
-                                <ul>
+                                <ul class="list-group list-group-flush">
                                     @foreach($subject->streams as $stream)
-                                        <li>{{ $stream->name }}</li>
+                                        <li class="list-group-item">{{ $stream->name }}</li>
                                     @endforeach
                                 </ul>
                             @endif
-                        </td>
-                    </tr>
-                @endforeach
-            </tbody>
-        </table>
+                        </div>
+                    </div>
+                </div>
+            @endforeach
+        </div>
     @endif
 </div>
-
-
 @endsection

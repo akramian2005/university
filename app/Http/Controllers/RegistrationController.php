@@ -17,7 +17,7 @@ class RegistrationController extends Controller
     {
         $subjects = Subject::all();
         $semesters = Semester::all();
-        return view('registrations.create', compact('subjects', 'semesters'));
+        return view('student.registrations.create', compact('subjects', 'semesters'));
     }
 
     // Сохраняем регистрацию
@@ -65,6 +65,6 @@ class RegistrationController extends Controller
             ->where('student_id', $student->id)
             ->get();
 
-        return view('student.registrations', compact('student', 'registrations'));
+        return view('student.registrations.index', compact('student', 'registrations'));
     }
 }

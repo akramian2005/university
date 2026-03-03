@@ -6,7 +6,7 @@
     <h2 class="mb-3">{{ ucfirst($table) }}</h2>
 
     <a href="{{ route('admin.create', $table) }}" class="btn btn-success mb-3">
-        + Add record
+        + Добавить запись
     </a>
 
     <table class="table table-bordered table-striped">
@@ -15,7 +15,7 @@
                 @foreach($columns as $col)
                     <th>{{ ucfirst(str_replace('_', ' ', $col)) }}</th>
                 @endforeach
-                <th width="160">Actions</th>
+                <th width="160">Действия</th>
             </tr>
         </thead>
 

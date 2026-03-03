@@ -1,21 +1,57 @@
 @extends('layouts.app')
 
+@section('title', 'Панель студента')
+
 @section('content')
 <div class="container">
-    <h2>Welcome, {{ $student->first_name }} {{ $student->last_name }}</h2>
-    <p>Your ID: {{ $student->id }}</p>
 
-    <a href="{{ route('registrations.create') }}" class="btn btn-primary mt-3">
-        Register for Courses
-    </a>
+    <div class="mb-4">
+        <h2>Добро пожаловать, {{ $student->first_name }} {{ $student->last_name }}</h2>
+        <p class="text-muted">Ваш идентификатор: {{ $student->id }}</p>
+    </div>
 
-    <a href="{{ route('student.registrations') }}" class="btn btn-primary mt-3">
-        View My Registrations
-    </a>
+    <div class="row">
 
-    <a href="{{ route('student.schedule') }}" class="btn btn-primary mt-3">
-        View Schedule
-    </a>
+        <div class="col-md-4 mb-4">
+            <div class="card shadow-sm border-0 h-100">
+                <div class="card-body text-center">
+                    <h5 class="card-title">Регистрация на дисциплины</h5>
+                    <p class="text-muted">Записаться на новые предметы</p>
+                    <a href="{{ route('registrations.create') }}" 
+                       class="btn btn-primary">
+                        Перейти
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-4 mb-4">
+            <div class="card shadow-sm border-0 h-100">
+                <div class="card-body text-center">
+                    <h5 class="card-title">Мои регистрации</h5>
+                    <p class="text-muted">Просмотр выбранных дисциплин</p>
+                    <a href="{{ route('student.registrations') }}" 
+                       class="btn btn-success">
+                        Открыть
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-4 mb-4">
+            <div class="card shadow-sm border-0 h-100">
+                <div class="card-body text-center">
+                    <h5 class="card-title">Моё расписание</h5>
+                    <p class="text-muted">Просмотр расписания занятий</p>
+                    <a href="{{ route('student.schedule') }}" 
+                       class="btn btn-warning">
+                        Посмотреть
+                    </a>
+                </div>
+            </div>
+        </div>
+
+    </div>
 
 </div>
 @endsection

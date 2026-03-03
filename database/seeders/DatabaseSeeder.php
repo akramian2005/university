@@ -2,10 +2,14 @@
 
 namespace Database\Seeders;
 
-use App\Models\User;
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
-use App\Models\{Building, Classroom, Faculty, Department, Speciality, Group, Student, Teacher, Subject, Gender, Region, Nationality, FormOfStudy, StudyMode, Year, Month, Semester, Period, Schedule};
+use Illuminate\Database\Console\Seeds\WithoutModelEvents;
+
+use App\Models\{
+    User, Building, Classroom, Faculty, Department, Speciality, Group,
+    Student, Teacher, Subject, Gender, Region, Nationality, FormOfStudy,
+    StudyMode, Year, Month, Semester, Period, Schedule
+};
 
 class DatabaseSeeder extends Seeder
 {
@@ -16,15 +20,15 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-        // User::factory(10)->create();
-
+        // Пользователь для теста
         User::factory()->create([
             'name' => 'Test User',
             'email' => 'test@example.com',
         ]);
 
-                Gender::insert([
-            ['name' => 'Male'], 
+        // Статические таблицы
+        Gender::insert([
+            ['name' => 'Male'],
             ['name' => 'Female']
         ]);
 
@@ -35,21 +39,22 @@ class DatabaseSeeder extends Seeder
 
         StudyMode::insert([
             ['name' => 'Full-time'],
-            ['name' => 'Part-time'],
+            ['name' => 'Part-time']
         ]);
 
-
         Nationality::insert([
-            ['name'=>'kyrgyz'], ['name'=>'russian'], ['name'=>'kazakh'], 
-            ['name'=>'dungan'], ['name'=>'korean'], ['name'=>'uzbek'], ['name'=>'ukranian'], ['name'=>'tadjik']
+            ['name' => 'kyrgyz'], ['name' => 'russian'], ['name' => 'kazakh'],
+            ['name' => 'dungan'], ['name' => 'korean'], ['name' => 'uzbek'],
+            ['name' => 'ukranian'], ['name' => 'tadjik']
         ]);
 
         Region::insert([
-            ['name'=>'Bishkek'], ['name'=>'Osh'], ['name'=>'Chui'], ['name'=>'Batken'], 
-            ['name'=>'Issik-Kul'], ['name'=>'Djalal-Abad'], ['name'=>'Talas'], ['name'=>'Naryn']
+            ['name' => 'Bishkek'], ['name' => 'Osh'], ['name' => 'Chui'],
+            ['name' => 'Batken'], ['name' => 'Issik-Kul'], ['name' => 'Djalal-Abad'],
+            ['name' => 'Talas'], ['name' => 'Naryn']
         ]);
 
-        // Основная структура
+        // Фабрики для динамических данных
         Building::factory()->count(3)->create();
         Classroom::factory()->count(100)->create();
         Faculty::factory()->count(6)->create();
@@ -59,34 +64,18 @@ class DatabaseSeeder extends Seeder
         Student::factory()->count(144)->create();
         Teacher::factory()->count(28)->create();
         Subject::factory()->count(28)->create();
-        
-        $this->call(AdminUserSeeder::class);
 
+        // Сидеры с логикой (в правильном порядке)
         $this->call([
-            YearsTableSeeder::class,
-            MonthsTableSeeder::class,
-        ]);
-
-        $this->call([
+            AdminUserSeeder::class,
             YearsTableSeeder::class,
             MonthsTableSeeder::class,
             SemestersTableSeeder::class,
-        ]);
-
-        $this->call([
-            // SubjectsSeeder::class,
-            // TeachersSeeder::class,
             StreamsSeeder::class,
             SubjectTeacherSeeder::class,
-            // SemestersSeeder::class,
             RegistrationsSeeder::class,
-        ]);
-        $this->call([
             PeriodsSeeder::class,
             SchedulesSeeder::class,
         ]);
-
-
-
     }
 }

@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @section('content')
-<h2>Create record in {{ $table }}</h2>
+<h2>Создать запись в таблице {{ ucfirst($table) }}</h2>
 
 <form method="POST" action="{{ route('admin.store', $table) }}">
     @csrf
@@ -15,6 +15,6 @@
         @endif
     @endforeach
 
-    <button class="btn btn-success">Save</button>
+    <button class="btn btn-success">Создать запись</button>
 </form>
 @endsection

@@ -1,21 +1,44 @@
 @extends('layouts.app')
 
+@section('title', 'Панель преподавателя')
+
 @section('content')
 <div class="container">
-    <h2>Welcome, {{ $teacher->first_name }} {{ $teacher->last_name }}</h2>
-    <p>Your ID: {{ $teacher->id }}</p>
-    <h4>Your Subjects:</h4>
 
-    
+    <div class="mb-4">
+        <h2>Добро пожаловать, {{ $teacher->first_name }} {{ $teacher->last_name }}</h2>
+        <p class="text-muted">Ваш идентификатор: {{ $teacher->id }}</p>
+    </div>
 
-    <!-- Кнопка перехода на страницу с предметами -->
-    <a href="{{ route('teacher.subjects') }}" class="btn btn-primary">
-        View My Subjects
-    </a>
+    <div class="row">
 
-    <a href="{{ route('teacher.schedule') }}" class="btn btn-primary">
-        View Schedule
-    </a>
+        <div class="col-md-6 mb-4">
+            <div class="card shadow-sm border-0 h-100">
+                <div class="card-body text-center">
+                    <h5 class="card-title">Мои дисциплины</h5>
+                    <p class="text-muted">Просмотр закреплённых предметов</p>
+                    <a href="{{ route('teacher.subjects') }}" 
+                       class="btn btn-primary">
+                        Открыть
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-6 mb-4">
+            <div class="card shadow-sm border-0 h-100">
+                <div class="card-body text-center">
+                    <h5 class="card-title">Моё расписание</h5>
+                    <p class="text-muted">Просмотр расписания занятий</p>
+                    <a href="{{ route('teacher.schedule') }}" 
+                       class="btn btn-warning">
+                        Посмотреть
+                    </a>
+                </div>
+            </div>
+        </div>
+
+    </div>
 
 </div>
 @endsection
