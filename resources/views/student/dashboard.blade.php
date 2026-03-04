@@ -25,13 +25,27 @@
             </div>
         </div>
 
+        {{-- 🔥 НОВАЯ КАРТОЧКА: МОИ ОЦЕНКИ --}}
+        <div class="col-md-3 mb-4">
+            <div class="card shadow-sm border-0 h-100 border-primary">
+                <div class="card-body text-center">
+                    <h5 class="card-title">Мои оценки</h5>
+                    <p class="text-muted">Просмотреть успеваемость по предметам</p>
+                    <a href="{{ route('student.grades') }}" 
+                       class="btn btn-primary">
+                        Посмотреть
+                    </a>
+                </div>
+            </div>
+        </div>
+
         <div class="col-md-3 mb-4">
             <div class="card shadow-sm border-0 h-100">
                 <div class="card-body text-center">
                     <h5 class="card-title">Регистрация на дисциплины</h5>
                     <p class="text-muted">Записаться на новые предметы</p>
                     <a href="{{ route('registrations.create') }}" 
-                       class="btn btn-primary">
+                       class="btn btn-outline-primary">
                         Перейти
                     </a>
                 </div>

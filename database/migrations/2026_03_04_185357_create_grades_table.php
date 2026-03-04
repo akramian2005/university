@@ -13,6 +13,12 @@ return new class extends Migration
     {
         Schema::create('grades', function (Blueprint $table) {
             $table->id();
+
+            $table->foreignId('registration_id')->constrained()->cascadeOnDelete();
+            $table->date('grade_date');
+            $table->integer('grade'); // оценка (например 2-5 или 0-100)
+            $table->text('comment')->nullable();
+
             $table->timestamps();
         });
     }

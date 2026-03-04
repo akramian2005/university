@@ -34,4 +34,9 @@ class Registration extends Model
     {
         return $this->belongsTo(Semester::class);
     }
+
+    public function grades()
+    {
+        return $this->hasMany(Grade::class);
+    }
 }

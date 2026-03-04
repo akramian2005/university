@@ -15,11 +15,28 @@ use Illuminate\Support\Facades\Hash;
 class AdminStudentController extends Controller
 {
     // Список студентов
-    public function index()
+    public function index(Request $request)
     {
-        $students = Student::with('group')->paginate(10);
+        $query = Student::query()->with('group');
+
+        // Поиск по ID
+        if ($request->filled('search_id')) {
+            $query->where('id', $request->search_id);
+        }
+
+        // Поиск по Имени или Фамилии
+        if ($request->filled('search_name')) {
+            $name = $request->search_name;
+            $query->where(function($q) use ($name) {
+                $q->where('first_name', 'LIKE', "%{$name}%")
+                ->orWhere('last_name', 'LIKE', "%{$name}%");
+            });
+        }
+
+        $students = $query->paginate(10)->withQueryString(); // withQueryString сохраняет параметры поиска при переходе по страницам
+
         return view('admin.students.index', compact('students'));
-    }
+}
 
     // Страница студента
     public function show(Student $student)

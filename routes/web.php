@@ -45,13 +45,13 @@ Route::prefix('admin')->middleware(['auth', 'admin'])->group(function () {
     Route::delete('/table/{table}/{id}', [AdminController::class, 'destroy'])->name('admin.destroy');
 
     // Администрирование групп
-    Route::get('/groups', [GroupsController::class, 'index'])->name('admin.groups.index');           // список групп
-    Route::get('/groups/create', [GroupsController::class, 'create'])->name('admin.groups.create');  // форма создания группы
-    Route::post('/groups', [GroupsController::class, 'store'])->name('admin.groups.store');          // сохранение новой группы
-    Route::get('/groups/{group}/edit', [GroupsController::class, 'edit'])->name('admin.groups.edit'); // форма редактирования
-    Route::put('/groups/{group}', [GroupsController::class, 'update'])->name('admin.groups.update'); // обновление группы
-    Route::delete('/groups/{group}', [GroupsController::class, 'destroy'])->name('admin.groups.destroy'); // удаление группы
-    Route::get('/groups/{group}', [GroupsController::class, 'show'])->name('admin.groups.show');      // просмотр состава группы
+    Route::get('/groups', [GroupsController::class, 'index'])->name('admin.groups.index');
+    Route::get('/groups/create', [GroupsController::class, 'create'])->name('admin.groups.create');
+    Route::post('/groups', [GroupsController::class, 'store'])->name('admin.groups.store');
+    Route::get('/groups/{group}/edit', [GroupsController::class, 'edit'])->name('admin.groups.edit');
+    Route::put('/groups/{group}', [GroupsController::class, 'update'])->name('admin.groups.update');
+    Route::delete('/groups/{group}', [GroupsController::class, 'destroy'])->name('admin.groups.destroy');
+    Route::get('/groups/{group}', [GroupsController::class, 'show'])->name('admin.groups.show');
 
     // Администрирование студентов
     Route::get('/students', [AdminStudentController::class, 'index'])->name('admin.students.index');
@@ -67,8 +67,10 @@ Route::prefix('admin')->middleware(['auth', 'admin'])->group(function () {
 Route::prefix('student')->middleware('auth:student')->group(function () {
     Route::get('/', [StudentController::class, 'dashboard'])->name('student.dashboard');
     Route::get('/schedule', [ScheduleController::class, 'student'])->name('student.schedule');
-
     Route::get('/profile', [StudentController::class, 'profile'])->name('student.profile');
+
+    // 🔥 Оценки студента (используем твой метод в StudentController)
+    Route::get('/grades', [StudentController::class, 'grades'])->name('student.grades');
 
     // Регистрации
     Route::get('registrations/create', [RegistrationController::class, 'create'])->name('registrations.create');
@@ -90,4 +92,11 @@ Route::prefix('teacher')->middleware('auth:teacher')->group(function () {
     Route::get('/subjects', [TeacherController::class, 'mySubjects'])->name('teacher.subjects');
     Route::get('/schedule', [ScheduleController::class, 'teacher'])->name('teacher.schedule');
     Route::get('/profile', [TeacherController::class, 'profile'])->name('teacher.profile');
+
+    // 🔥 Потоки и Оценки учителя (используем методы из твоего TeacherController)
+    Route::get('/streams', [TeacherController::class, 'streams'])->name('teacher.streams');
+    Route::get('/streams/{stream}', [TeacherController::class, 'streamStudents'])->name('teacher.streams.students');
+    
+    // В контроллере у тебя метод называется storeGrade
+    Route::post('/grades/store', [TeacherController::class, 'storeGrade'])->name('teacher.grades.store');
 });

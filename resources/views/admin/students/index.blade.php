@@ -6,8 +6,25 @@
 <div class="container">
     <h2 class="mb-4">Список студентов</h2>
 
+    <div class="card mb-4 shadow-sm">
+        <div class="card-body">
+            <form action="{{ route('admin.students.index') }}" method="GET" class="row g-3">
+                <div class="col-md-2">
+                    <input type="text" name="search_id" class="form-control" placeholder="Поиск по ID" value="{{ request('search_id') }}">
+                </div>
+                <div class="col-md-6">
+                    <input type="text" name="search_name" class="form-control" placeholder="Поиск по имени или фамилии" value="{{ request('search_name') }}">
+                </div>
+                <div class="col-md-4">
+                    <button type="submit" class="btn btn-primary">Найти</button>
+                    <a href="{{ route('admin.students.index') }}" class="btn btn-outline-secondary">Сбросить</a>
+                </div>
+            </form>
+        </div>
+    </div>
+
     <table class="table table-bordered text-center">
-        <thead>
+        <thead class="table-light">
             <tr>
                 <th>ID</th>
                 <th>ФИО</th>
@@ -16,7 +33,7 @@
             </tr>
         </thead>
         <tbody>
-            @foreach($students as $student)
+            @forelse($students as $student)
                 <tr>
                     <td>{{ $student->id }}</td>
                     <td>{{ $student->first_name }} {{ $student->last_name }}</td>
@@ -28,10 +45,16 @@
                         </a>
                     </td>
                 </tr>
-            @endforeach
+            @empty
+                <tr>
+                    <td colspan="4" class="text-muted">Студенты не найдены</td>
+                </tr>
+            @endforelse
         </tbody>
     </table>
 
-    {{ $students->links() }}
+    <div class="mt-3">
+        {{ $students->links() }}
+    </div>
 </div>
 @endsection
