@@ -27,5 +27,20 @@
             </div>
         </div>
     @endforeach
+
+    {{-- Кнопка для администрирования групп --}}
+    <div class="col-md-4 mb-4">
+        <div class="card shadow-sm border-0 h-100">
+            <div class="card-body d-flex flex-column justify-content-between text-center">
+                <div>
+                    <h5 class="card-title text-primary">Группы</h5>
+                    <p class="text-muted">Просмотр всех групп и их состава</p>
+                </div>
+                <a href="{{ route('admin.groups.index') }}" class="btn btn-outline-success mt-3">
+                    Открыть группы
+                </a>
+            </div>
+        </div>
+    </div>
 </div>
 @endsection

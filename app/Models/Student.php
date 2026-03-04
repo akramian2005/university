@@ -20,6 +20,8 @@ class Student extends Authenticatable
         'group_id',
         'form_of_study_id',
         'password',
+        'contract_price',
+        'contract_paid',
     ];
 
     public function group()

@@ -18,6 +18,9 @@ class StudentFactory extends Factory
 
     public function definition()
     {
+        $contract_price = $this->faker->numberBetween(60000, 100000);
+        $contract_paid = $this->faker->numberBetween(0, $contract_price);
+
         return [
             'first_name' => $this->faker->firstName,
             'last_name'  => $this->faker->lastName,
@@ -29,6 +32,8 @@ class StudentFactory extends Factory
             'form_of_study_id' => FormOfStudy::inRandomOrder()->first()->id,
             'study_mode_id' => StudyMode::inRandomOrder()->first()->id,
             'password' => Hash::make('student123'),
+            'contract_price' => $contract_price,
+            'contract_paid' => $contract_paid,
         ];
     }
 }

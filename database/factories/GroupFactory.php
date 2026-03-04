@@ -12,8 +12,21 @@ class GroupFactory extends Factory
 
     public function definition()
     {
+        // Генерируем 2-4 случайные заглавные буквы
+        $lettersCount = $this->faker->numberBetween(2, 4);
+        $letters = '';
+        for ($i = 0; $i < $lettersCount; $i++) {
+            $letters .= chr($this->faker->numberBetween(65, 90)); // ASCII A-Z
+        }
+
+        // Случайная цифра 1-10
+        $number = $this->faker->numberBetween(1, 10);
+
+        // Год 23-26
+        $year = $this->faker->numberBetween(23, 26);
+
         return [
-            'name' => $this->faker->unique()->numberBetween(101, 9999),
+            'name' => "{$letters}-{$number}-{$year}",
             'speciality_id' => Speciality::inRandomOrder()->first()->id,
         ];
     }

@@ -12,7 +12,20 @@
 
     <div class="row">
 
-        <div class="col-md-4 mb-4">
+        <div class="col-md-3 mb-4">
+            <div class="card shadow-sm border-0 h-100">
+                <div class="card-body text-center">
+                    <h5 class="card-title">Личный кабинет</h5>
+                    <p class="text-muted">Посмотреть всю информацию о себе</p>
+                    <a href="{{ route('student.profile') }}" 
+                       class="btn btn-info">
+                        Перейти
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-3 mb-4">
             <div class="card shadow-sm border-0 h-100">
                 <div class="card-body text-center">
                     <h5 class="card-title">Регистрация на дисциплины</h5>
@@ -25,7 +38,7 @@
             </div>
         </div>
 
-        <div class="col-md-4 mb-4">
+        <div class="col-md-3 mb-4">
             <div class="card shadow-sm border-0 h-100">
                 <div class="card-body text-center">
                     <h5 class="card-title">Мои регистрации</h5>
@@ -38,7 +51,7 @@
             </div>
         </div>
 
-        <div class="col-md-4 mb-4">
+        <div class="col-md-3 mb-4">
             <div class="card shadow-sm border-0 h-100">
                 <div class="card-body text-center">
                     <h5 class="card-title">Моё расписание</h5>

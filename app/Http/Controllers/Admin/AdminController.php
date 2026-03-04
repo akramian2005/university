@@ -1,7 +1,8 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Admin;
 
+use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Schema;
@@ -42,7 +43,7 @@ class AdminController extends Controller
             // 'faculties',
             // 'departments',
             // 'specialities',
-            'groups',
+            // 'groups',
             'students',
             'teachers',
             'subjects',
