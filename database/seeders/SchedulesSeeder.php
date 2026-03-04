@@ -3,7 +3,7 @@
 namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
-use App\Models\{Schedule, Subject, Teacher, Classroom, Building, Period};
+use App\Models\{Schedule, Teacher, Classroom, Building, Period, Registration};
 
 class SchedulesSeeder extends Seeder
 {
@@ -11,7 +11,6 @@ class SchedulesSeeder extends Seeder
     {
         $days = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday'];
 
-        $subjects = Subject::all();
         $teachers = Teacher::all();
         $classrooms = Classroom::all();
         $buildings = Building::all();
@@ -19,18 +18,24 @@ class SchedulesSeeder extends Seeder
 
         foreach ($teachers as $teacher) {
 
-            for ($i = 0; $i < rand(4, 8); $i++) {
+            $subjects = Registration::where('teacher_id', $teacher->id)
+                ->pluck('subject_id')
+                ->unique();
 
-                Schedule::create([
-                    'subject_id' => $subjects->random()->id,
-                    'teacher_id' => $teacher->id,
-                    'classroom_id' => $classrooms->random()->id,
-                    'building_id' => $buildings->random()->id,
-                    'period_id' => $periods->random()->id,
-                    'day_of_week' => $days[array_rand($days)],
-                ]);
+            foreach ($subjects as $subjectId) {
+
+                for ($i = 0; $i < rand(2, 3); $i++) {
+
+                    Schedule::create([
+                        'subject_id' => $subjectId,
+                        'teacher_id' => $teacher->id,
+                        'classroom_id' => $classrooms->random()->id,
+                        'building_id' => $buildings->random()->id,
+                        'period_id' => $periods->random()->id,
+                        'day_of_week' => $days[array_rand($days)],
+                    ]);
+                }
             }
         }
-
     }
 }

@@ -56,6 +56,12 @@
             AVN КГТУ
         </a>
 
+        {{-- Кнопка назад --}}
+        <a href="{{ url()->previous() }}" 
+           class="btn btn-primary me-3">
+            ← Назад
+        </a>
+
         <div class="collapse navbar-collapse">
             <ul class="navbar-nav ms-auto">
                 @auth

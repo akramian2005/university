@@ -28,4 +28,10 @@ class TeacherController extends Controller
         return view('teacher.subjects', compact('teacher', 'subjects'));
     }
 
+    public function profile()
+    {
+        $teacher = Auth::guard('teacher')->user();
+        return view('teacher.profile', compact('teacher'));
+    }
+
 }

@@ -8,6 +8,7 @@ use App\Http\Controllers\StudentController;
 use App\Http\Controllers\RegistrationController;
 use App\Http\Controllers\ScheduleController;
 use App\Http\Controllers\Admin\GroupsController;
+use App\Http\Controllers\Admin\AdminStudentController;
 
 /*
 |--------------------------------------------------------------------------
@@ -51,6 +52,11 @@ Route::prefix('admin')->middleware(['auth', 'admin'])->group(function () {
     Route::put('/groups/{group}', [GroupsController::class, 'update'])->name('admin.groups.update'); // обновление группы
     Route::delete('/groups/{group}', [GroupsController::class, 'destroy'])->name('admin.groups.destroy'); // удаление группы
     Route::get('/groups/{group}', [GroupsController::class, 'show'])->name('admin.groups.show');      // просмотр состава группы
+
+    // Администрирование студентов
+    Route::get('/students', [AdminStudentController::class, 'index'])->name('admin.students.index');
+    Route::get('/students/{student}', [AdminStudentController::class, 'show'])->name('admin.students.show');
+    Route::put('/students/{student}', [AdminStudentController::class, 'update'])->name('admin.students.update');
 });
 
 /*
@@ -83,4 +89,5 @@ Route::prefix('teacher')->middleware('auth:teacher')->group(function () {
     Route::get('/', [TeacherController::class, 'dashboard'])->name('teacher.dashboard');
     Route::get('/subjects', [TeacherController::class, 'mySubjects'])->name('teacher.subjects');
     Route::get('/schedule', [ScheduleController::class, 'teacher'])->name('teacher.schedule');
+    Route::get('/profile', [TeacherController::class, 'profile'])->name('teacher.profile');
 });
