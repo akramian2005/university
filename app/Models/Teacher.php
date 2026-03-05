@@ -18,7 +18,15 @@ class Teacher extends Authenticatable
         'rate',
         'position',
         'salary',
+        'avatar',
     ];
+
+    public function getAvatarUrlAttribute()
+    {
+        return $this->avatar 
+            ? asset('storage/' . $this->avatar) 
+            : asset('images/default-teacher-avatar.png');
+    }
 
     /*
     |--------------------------------------------------------------------------

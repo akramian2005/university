@@ -49,8 +49,8 @@
             <div class="card shadow-sm border-0 h-100">
                 <div class="card-body text-center d-flex flex-column justify-content-between">
                     <div>
-                        <h5 class="card-title">Мои потоки</h5>
-                        <p class="text-muted">Просмотр потоков, по которым вы ведёте предметы</p>
+                        <h5 class="card-title">Оценки</h5>
+                        <p class="text-muted">Выставление баллов</p>
                     </div>
                     <a href="{{ route('teacher.streams') }}" 
                        class="btn btn-info mt-3">

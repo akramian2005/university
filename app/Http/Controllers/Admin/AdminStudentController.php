@@ -11,6 +11,7 @@ use App\Models\Nationality;
 use App\Models\Group;
 use App\Models\FormOfStudy;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Storage; // Добавлено для работы с файлами
 
 class AdminStudentController extends Controller
 {
@@ -33,10 +34,10 @@ class AdminStudentController extends Controller
             });
         }
 
-        $students = $query->paginate(10)->withQueryString(); // withQueryString сохраняет параметры поиска при переходе по страницам
+        $students = $query->paginate(10)->withQueryString();
 
         return view('admin.students.index', compact('students'));
-}
+    }
 
     // Страница студента
     public function show(Student $student)
@@ -55,8 +56,9 @@ class AdminStudentController extends Controller
     public function update(Request $request, Student $student)
     {
         $data = $request->validate([
-            'first_name' => 'required',
-            'last_name' => 'required',
+            'first_name' => 'required|string|max:255',
+            'last_name' => 'required|string|max:255',
+            'avatar' => 'nullable|image|mimes:jpeg,png,jpg|max:2048', // Валидация фото
             'date_born' => 'required|date',
             'gender_id' => 'required|exists:genders,id',
             'region_id' => 'required|exists:regions,id',
@@ -68,6 +70,19 @@ class AdminStudentController extends Controller
             'password' => 'nullable|min:6',
         ]);
 
+        // 🔥 Обработка аватара
+        if ($request->hasFile('avatar')) {
+            // Удаляем старый файл, если он существует
+            if ($student->avatar && Storage::disk('public')->exists($student->avatar)) {
+                Storage::disk('public')->delete($student->avatar);
+            }
+
+            // Сохраняем новый файл в папку avatars
+            $path = $request->file('avatar')->store('avatars', 'public');
+            $data['avatar'] = $path;
+        }
+
+        // Обработка пароля
         if ($request->filled('password')) {
             $data['password'] = Hash::make($request->password);
         } else {
@@ -76,6 +91,6 @@ class AdminStudentController extends Controller
 
         $student->update($data);
 
-        return redirect()->back()->with('success', 'Студент обновлен');
+        return redirect()->back()->with('success', 'Данные студента и фото обновлены');
     }
 }

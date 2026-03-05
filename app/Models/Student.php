@@ -22,7 +22,15 @@ class Student extends Authenticatable
         'password',
         'contract_price',
         'contract_paid',
+        'avatar', 
     ];
+
+    public function getAvatarUrlAttribute()
+    {
+        return $this->avatar 
+            ? asset('storage/' . $this->avatar) 
+            : asset('images/default-avatar.png');
+    }
 
     public function group()
     {

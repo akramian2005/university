@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', 'Студент')
+@section('title', 'Редактирование студента')
 
 @section('content')
 <div class="container">
@@ -10,23 +10,45 @@
         <div class="alert alert-success">{{ session('success') }}</div>
     @endif
 
-    <form method="POST" action="{{ route('admin.students.update', $student->id) }}">
+    {{-- 🔥 Добавлен enctype="multipart/form-data" для работы с файлами --}}
+    <form method="POST" action="{{ route('admin.students.update', $student->id) }}" enctype="multipart/form-data">
         @csrf
         @method('PUT')
 
         <div class="row">
+            {{-- Блок предварительного просмотра аватара --}}
+            <div class="col-12 mb-4 text-center">
+                <div class="current-avatar mb-2">
+                    @if($student->avatar)
+                        <img src="{{ asset('storage/' . $student->avatar) }}" 
+                             alt="Текущий аватар" 
+                             class="rounded-circle img-thumbnail" 
+                             style="width: 150px; height: 150px; object-fit: cover;">
+                    @else
+                        <img src="https://ui-avatars.com/api/?name={{ urlencode($student->first_name . ' ' . $student->last_name) }}&size=150" 
+                             class="rounded-circle img-thumbnail">
+                    @endif
+                </div>
+                <div class="col-md-4 mx-auto">
+                    <label class="form-label">Изменить фото профиля</label>
+                    <input type="file" name="avatar" class="form-control" accept="image/*">
+                    <small class="text-muted">Рекомендуется квадратное изображение (JPG, PNG)</small>
+                </div>
+            </div>
 
             <div class="col-md-6 mb-3">
                 <label>Имя</label>
                 <input type="text" name="first_name" class="form-control"
-                       value="{{ $student->first_name }}">
+                       value="{{ old('first_name', $student->first_name) }}">
             </div>
 
             <div class="col-md-6 mb-3">
                 <label>Фамилия</label>
                 <input type="text" name="last_name" class="form-control"
-                       value="{{ $student->last_name }}">
+                       value="{{ old('last_name', $student->last_name) }}">
             </div>
+
+            {{-- ... остальные поля (дата рождения, пол, регион и т.д. остаются без изменений) ... --}}
 
             <div class="col-md-6 mb-3">
                 <label>Дата рождения</label>
@@ -116,7 +138,10 @@
 
         </div>
 
-        <button type="submit" class="btn btn-success">Сохранить</button>
+        <div class="mt-4">
+            <button type="submit" class="btn btn-success px-5">Сохранить</button>
+            <a href="{{ route('admin.students.index') }}" class="btn btn-secondary">Назад</a>
+        </div>
     </form>
 </div>
 @endsection
