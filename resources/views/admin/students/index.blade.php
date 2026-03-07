@@ -124,6 +124,17 @@
                            class="btn btn-sm btn-primary">
                             Открыть
                         </a>
+
+                        <form action="{{ route('admin.students.destroy', $student->id) }}" 
+                              method="POST" 
+                              class="d-inline"
+                              onsubmit="return confirm('Вы уверены, что хотите удалить этого студента?');">
+                            @csrf
+                            @method('DELETE')
+                            <button type="submit" class="btn btn-sm btn-danger">
+                                Удалить
+                            </button>
+                        </form>
                     </td>
                 </tr>
             @empty

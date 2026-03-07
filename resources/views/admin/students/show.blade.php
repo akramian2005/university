@@ -10,7 +10,6 @@
         <div class="alert alert-success">{{ session('success') }}</div>
     @endif
 
-    {{-- 🔥 Добавлен enctype="multipart/form-data" для работы с файлами --}}
     <form method="POST" action="{{ route('admin.students.update', $student->id) }}" enctype="multipart/form-data">
         @csrf
         @method('PUT')
@@ -33,6 +32,9 @@
                     <label class="form-label">Изменить фото профиля</label>
                     <input type="file" name="avatar" class="form-control" accept="image/*">
                     <small class="text-muted">Рекомендуется квадратное изображение (JPG, PNG)</small>
+                    @error('avatar')
+                        <div class="text-danger small">{{ $message }}</div>
+                    @enderror
                 </div>
             </div>
 
@@ -40,20 +42,27 @@
                 <label>Имя</label>
                 <input type="text" name="first_name" class="form-control"
                        value="{{ old('first_name', $student->first_name) }}">
+                @error('first_name')
+                    <div class="text-danger small">{{ $message }}</div>
+                @enderror
             </div>
 
             <div class="col-md-6 mb-3">
                 <label>Фамилия</label>
                 <input type="text" name="last_name" class="form-control"
                        value="{{ old('last_name', $student->last_name) }}">
+                @error('last_name')
+                    <div class="text-danger small">{{ $message }}</div>
+                @enderror
             </div>
-
-            {{-- ... остальные поля (дата рождения, пол, регион и т.д. остаются без изменений) ... --}}
 
             <div class="col-md-6 mb-3">
                 <label>Дата рождения</label>
                 <input type="date" name="date_born" class="form-control"
                        value="{{ $student->date_born }}">
+                @error('date_born')
+                    <div class="text-danger small">{{ $message }}</div>
+                @enderror
             </div>
 
             <div class="col-md-6 mb-3">
@@ -66,6 +75,9 @@
                         </option>
                     @endforeach
                 </select>
+                @error('gender_id')
+                    <div class="text-danger small">{{ $message }}</div>
+                @enderror
             </div>
 
             <div class="col-md-6 mb-3">
@@ -78,6 +90,9 @@
                         </option>
                     @endforeach
                 </select>
+                @error('region_id')
+                    <div class="text-danger small">{{ $message }}</div>
+                @enderror
             </div>
 
             <div class="col-md-6 mb-3">
@@ -90,6 +105,9 @@
                         </option>
                     @endforeach
                 </select>
+                @error('nationality_id')
+                    <div class="text-danger small">{{ $message }}</div>
+                @enderror
             </div>
 
             <div class="col-md-6 mb-3">
@@ -102,6 +120,9 @@
                         </option>
                     @endforeach
                 </select>
+                @error('group_id')
+                    <div class="text-danger small">{{ $message }}</div>
+                @enderror
             </div>
 
             <div class="col-md-6 mb-3">
@@ -114,6 +135,9 @@
                         </option>
                     @endforeach
                 </select>
+                @error('form_of_study_id')
+                    <div class="text-danger small">{{ $message }}</div>
+                @enderror
             </div>
 
             <div class="col-md-6 mb-3">
@@ -121,6 +145,9 @@
                 <input type="number" name="contract_price"
                        class="form-control"
                        value="{{ $student->contract_price }}">
+                @error('contract_price')
+                    <div class="text-danger small">{{ $message }}</div>
+                @enderror
             </div>
 
             <div class="col-md-6 mb-3">
@@ -128,14 +155,18 @@
                 <input type="number" name="contract_paid"
                        class="form-control"
                        value="{{ $student->contract_paid }}">
+                @error('contract_paid')
+                    <div class="text-danger small">{{ $message }}</div>
+                @enderror
             </div>
 
             <div class="col-md-6 mb-3">
                 <label>Новый пароль (необязательно)</label>
-                <input type="password" name="password"
-                       class="form-control">
+                <input type="password" name="password" class="form-control">
+                @error('password')
+                    <div class="text-danger small">{{ $message }}</div>
+                @enderror
             </div>
-
         </div>
 
         <div class="mt-4">

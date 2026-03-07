@@ -98,7 +98,15 @@ class AdminStudentController extends Controller
             'form_of_study_id' => 'required|exists:form_of_studies,id',
             'contract_price' => 'nullable|numeric',
             'contract_paid' => 'nullable|numeric',
-            'password' => 'nullable|min:6',
+            'password' => [
+                'nullable',
+                'string',
+                'min:8',
+                'regex:/[A-Z]/',
+                'regex:/[a-z]/',
+                'regex:/[0-9]/',
+                'regex:/[\W]/',
+            ],
         ]);
 
         if ($request->hasFile('avatar')) {
@@ -120,6 +128,7 @@ class AdminStudentController extends Controller
         return redirect()->back()->with('success', 'Данные студента обновлены');
     }
 
+
     // Форма добавления студента
     public function create()
     {
@@ -132,7 +141,6 @@ class AdminStudentController extends Controller
         ]);
     }
 
-    // Сохранение нового студента
     public function store(Request $request)
     {
         $data = $request->validate([
@@ -147,7 +155,15 @@ class AdminStudentController extends Controller
             'form_of_study_id' => 'required|exists:form_of_studies,id',
             'contract_price' => 'nullable|numeric',
             'contract_paid' => 'nullable|numeric',
-            'password' => 'required|min:6',
+            'password' => [
+                'required',
+                'string',
+                'min:8',
+                'regex:/[A-Z]/',      // хотя бы одна заглавная буква
+                'regex:/[a-z]/',      // хотя бы одна строчная буква
+                'regex:/[0-9]/',      // хотя бы одна цифра
+                'regex:/[\W]/',       // хотя бы один спецсимвол
+            ],
         ]);
 
         if ($request->hasFile('avatar')) {
@@ -161,4 +177,17 @@ class AdminStudentController extends Controller
 
         return redirect()->route('admin.students.index')->with('success', 'Студент успешно добавлен');
     }
+
+    // Удаление студента
+    public function destroy(Student $student)
+    {
+        if ($student->avatar && Storage::disk('public')->exists($student->avatar)) {
+            Storage::disk('public')->delete($student->avatar);
+        }
+
+        $student->delete();
+
+        return redirect()->route('admin.students.index')->with('success', 'Студент удалён');
+    }
+
 }

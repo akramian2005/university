@@ -60,6 +60,7 @@ Route::prefix('admin')->middleware(['auth', 'admin'])->group(function () {
     Route::post('/students', [AdminStudentController::class, 'store'])->name('admin.students.store');
     Route::get('/students/{student}', [AdminStudentController::class, 'show'])->name('admin.students.show');
     Route::put('/students/{student}', [AdminStudentController::class, 'update'])->name('admin.students.update');
+    Route::delete('/students/{student}', [AdminStudentController::class, 'destroy'])->name('admin.students.destroy');
 
     // Администрирование расписания
     Route::resource('schedules', AdminScheduleController::class)->names('admin.schedules');

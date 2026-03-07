@@ -26,7 +26,7 @@ class AdminTeacherController extends Controller
             });
         }
         if ($request->filled('position')) {
-            $query->where('position','like',"%{$request->position}%");
+            $query->where('position',$request->position);
         }
 
         // Сортировка
@@ -46,7 +46,7 @@ class AdminTeacherController extends Controller
     }
 
     // Сохранение нового учителя
-    public function store(Request $request)
+ public function store(Request $request)
     {
         $data = $request->validate([
             'first_name' => 'required|string|max:255',
@@ -55,7 +55,15 @@ class AdminTeacherController extends Controller
             'rate'       => 'nullable|numeric',
             'position'   => 'nullable|string|max:255',
             'avatar'     => 'nullable|image|mimes:jpeg,png,jpg|max:2048',
-            'password'   => 'required|min:6',
+            'password'   => [
+                'required',
+                'string',
+                'min:8',
+                'regex:/[A-Z]/',   // хотя бы одна заглавная буква
+                'regex:/[a-z]/',   // хотя бы одна строчная буква
+                'regex:/[0-9]/',   // хотя бы одна цифра
+                'regex:/[\W]/',    // хотя бы один спецсимвол
+            ],
         ]);
 
         if ($request->hasFile('avatar')) {
@@ -68,6 +76,7 @@ class AdminTeacherController extends Controller
 
         return redirect()->route('admin.teachers.index')->with('success','Учитель добавлен');
     }
+
 
     // Просмотр/редактирование
     public function show(Teacher $teacher)
@@ -85,7 +94,15 @@ class AdminTeacherController extends Controller
             'rate'       => 'nullable|numeric',
             'position'   => 'nullable|string|max:255',
             'avatar'     => 'nullable|image|mimes:jpeg,png,jpg|max:2048',
-            'password'   => 'nullable|min:6',
+            'password'   => [
+                'nullable',
+                'string',
+                'min:8',
+                'regex:/[A-Z]/',
+                'regex:/[a-z]/',
+                'regex:/[0-9]/',
+                'regex:/[\W]/',
+            ],
         ]);
 
         if ($request->hasFile('avatar')) {
@@ -105,6 +122,7 @@ class AdminTeacherController extends Controller
 
         return redirect()->route('admin.teachers.index')->with('success','Учитель обновлён');
     }
+
 
     // Удаление
     public function destroy(Teacher $teacher)

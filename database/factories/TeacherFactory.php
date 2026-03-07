@@ -45,7 +45,7 @@ class TeacherFactory extends Factory
             'rate'       => $rate,
             'position'   => $position,
             'salary'     => $salary,          // сразу заполняем
-            'password'   => Hash::make('teacher123'),
+            'password'   => Hash::make('Teacher123!'),
         ];
     }
 }

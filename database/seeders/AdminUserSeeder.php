@@ -15,7 +15,7 @@ class AdminUserSeeder extends Seeder
             'id' => 999999,
             'name' => 'Admin',
             'email' => 'admin@example.com',
-            'password' => Hash::make('admin123'), // безопасно хешируем пароль
+            'password' => Hash::make('Admin123!'), // безопасно хешируем пароль
             'is_admin' => true,
         ]);
     }
