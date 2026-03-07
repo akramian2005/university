@@ -16,8 +16,8 @@ return new class extends Migration
 
             $table->foreignId('registration_id')->constrained()->cascadeOnDelete();
             $table->date('grade_date');
-            $table->integer('grade'); // оценка (например 2-5 или 0-100)
-            $table->text('comment')->nullable();
+            $table->enum('type', ['module1','module2','final']); // 🔹 тип оценки
+            $table->integer('grade'); // балл (ограничения проверяются в контроллере)
 
             $table->timestamps();
         });

@@ -11,16 +11,29 @@
             <tr>
                 <th>Предмет / Поток</th>
                 <th>Преподаватель</th>
-                <th>История оценок (баллы)</th>
-                {{-- <th>Кол-во</th> --}}
+                <th>Модуль 1</th>
+                <th>Модуль 2</th>
+                <th>Итоговый контроль</th>
                 <th class="table-primary text-dark">Общий балл</th>
+                <th>Оценка</th>
             </tr>
         </thead>
         <tbody>
             @forelse($registrations as $registration)
-                <tr>
+                @php
+                    $module1 = $registration->grades->where('type','module1')->sum('grade');
+                    $module2 = $registration->grades->where('type','module2')->sum('grade');
+                    $final   = $registration->grades->where('type','final')->sum('grade');
+                    $total   = $module1 + $module2 + $final;
+
+                    if ($total <= 60) $result = 'н/у';
+                    elseif ($total <= 73) $result = 'удов';
+                    elseif ($total <= 86) $result = 'хор';
+                    else $result = 'отл';
+                @endphp
+                <tr class="text-center">
                     {{-- Инфо о предмете --}}
-                    <td>
+                    <td class="text-start">
                         <strong>{{ $registration->subject->name ?? '—' }}</strong><br>
                         <small class="text-muted">{{ $registration->stream->name ?? '—' }}</small>
                     </td>
@@ -31,30 +44,34 @@
                         {{ $registration->teacher->last_name ?? '' }}
                     </td>
                     
-                    {{-- Список баллов через запятую --}}
-                    <td class="text-center">
-                        @forelse($registration->grades as $grade)
-                            <span class="badge border text-dark shadow-sm" title="Дата: {{ $grade->grade_date->format('d.m.Y') }} | {{ $grade->comment }}">
-                                {{ $grade->grade }}
-                            </span>
-                        @empty
-                            <span class="text-muted small">Оценок нет</span>
-                        @endforelse
-                    </td>
+                    {{-- Модуль 1 --}}
+                    <td>{{ $module1 }}</td>
                     
-                    {{-- Количество оценок --}}
-                    {{-- <td class="text-center">
-                        {{ $registration->grades->count() }}
-                    </td> --}}
+                    {{-- Модуль 2 --}}
+                    <td>{{ $module2 }}</td>
+                    
+                    {{-- Итоговый контроль --}}
+                    <td>{{ $final }}</td>
+                    
+                    {{-- Общий балл --}}
+                    <td class="fw-bold fs-5 table-primary">{{ $total }}</td>
 
-                    {{-- 🔥 ОБЩИЙ НАКОПЛЕННЫЙ БАЛЛ --}}
-                    <td class="text-center fw-bold fs-5 table-primary">
-                        {{ $registration->grades->sum('grade') }}
+                    {{-- Итоговая оценка --}}
+                    <td>
+                        @if($result === 'н/у')
+                            <span class="badge bg-danger">{{ $result }}</span>
+                        @elseif($result === 'удов')
+                            <span class="badge bg-warning text-dark">{{ $result }}</span>
+                        @elseif($result === 'хор')
+                            <span class="badge bg-primary">{{ $result }}</span>
+                        @else
+                            <span class="badge bg-success">{{ $result }}</span>
+                        @endif
                     </td>
                 </tr>
             @empty
                 <tr>
-                    <td colspan="5" class="text-center">У вас пока нет регистраций на предметы.</td>
+                    <td colspan="7" class="text-center">У вас пока нет регистраций на предметы.</td>
                 </tr>
             @endforelse
         </tbody>

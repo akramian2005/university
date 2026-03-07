@@ -28,8 +28,9 @@
                 @endforeach
             </select>
         </div>
-        <div class="col-md-3">
-            <button type="submit" class="btn btn-primary w-100">Фильтровать</button>
+        <div class="col-md-3 d-flex">
+            <button type="submit" class="btn btn-primary w-50 me-2">Фильтровать</button>
+            <a href="{{ route('admin.schedules.index') }}" class="btn btn-secondary w-50">Сбросить</a>
         </div>
     </form>
 
