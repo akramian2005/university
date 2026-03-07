@@ -13,52 +13,66 @@ use App\Models\Building;
 class AdminScheduleController extends Controller
 {
     // Список расписаний (группировка по преподавателям)
-public function index(Request $request)
-{
-    $query = Schedule::with(['subject','teacher','classroom','building']);
+    public function index(Request $request)
+    {
+        $query = Schedule::with(['subject','teacher','classroom','building']);
 
-    if ($request->filled('teacher')) {
-        $query->whereHas('teacher', function($q) use ($request) {
-            $q->where('last_name','like',"%{$request->teacher}%")
-              ->orWhere('first_name','like',"%{$request->teacher}%");
-        });
+        // Фильтры
+        if ($request->filled('teacher')) {
+            $query->whereHas('teacher', function($q) use ($request) {
+                $q->where('last_name','like',"%{$request->teacher}%")
+                  ->orWhere('first_name','like',"%{$request->teacher}%");
+            });
+        }
+
+        if ($request->filled('day_of_week')) {
+            $query->where('day_of_week', $request->day_of_week);
+        }
+
+        if ($request->filled('period_id')) {
+            $query->where('period_id', $request->period_id);
+        }
+
+        if ($request->filled('subject_id')) {
+            $query->where('subject_id', $request->subject_id);
+        }
+
+        if ($request->filled('classroom_id')) {
+            $query->where('classroom_id', $request->classroom_id);
+        }
+
+        if ($request->filled('building_id')) {
+            $query->where('building_id', $request->building_id);
+        }
+
+        // Сортировка
+        $sortColumn = $request->get('sort_column','day_of_week');
+        $sortDirection = $request->get('sort_direction','asc');
+        $query->orderBy($sortColumn,$sortDirection);
+
+        $schedules = $query->get()->groupBy('teacher_id');
+
+        $days = [
+            'Monday' => 'Понедельник',
+            'Tuesday' => 'Вторник',
+            'Wednesday' => 'Среда',
+            'Thursday' => 'Четверг',
+            'Friday' => 'Пятница',
+        ];
+
+        $periods = [
+            1 => ['start' => '10:00', 'end' => '11:20'],
+            2 => ['start' => '11:30', 'end' => '12:50'],
+            3 => ['start' => '13:00', 'end' => '14:20'],
+            4 => ['start' => '15:00', 'end' => '16:20'],
+            5 => ['start' => '16:30', 'end' => '17:50'],
+            6 => ['start' => '18:00', 'end' => '19:20'],
+        ];
+
+        return view('admin.schedules.index', compact('schedules','days','periods'));
     }
 
-    if ($request->filled('day_of_week')) {
-        $query->where('day_of_week', $request->day_of_week);
-    }
-
-    if ($request->filled('period_id')) {
-        $query->where('period_id', $request->period_id);
-    }
-
-    if ($request->filled('subject_id')) {
-        $query->where('subject_id', $request->subject_id);
-    }
-
-    $schedules = $query->get()->groupBy('teacher_id');
-
-    $days = [
-        'Monday' => 'Понедельник',
-        'Tuesday' => 'Вторник',
-        'Wednesday' => 'Среда',
-        'Thursday' => 'Четверг',
-        'Friday' => 'Пятница',
-    ];
-
-    $periods = [
-        1 => ['start' => '10:00', 'end' => '11:20'],
-        2 => ['start' => '11:30', 'end' => '12:50'],
-        3 => ['start' => '13:00', 'end' => '14:20'],
-        4 => ['start' => '15:00', 'end' => '16:20'],
-        5 => ['start' => '16:30', 'end' => '17:50'],
-        6 => ['start' => '18:00', 'end' => '19:20'],
-    ];
-
-    return view('admin.schedules.index', compact('schedules','days','periods'));
-}
-
-
+    // Форма добавления
     public function create()
     {
         return view('admin.schedules.create', [
@@ -69,6 +83,7 @@ public function index(Request $request)
         ]);
     }
 
+    // Сохранение
     public function store(Request $request)
     {
         $data = $request->validate([
@@ -85,6 +100,7 @@ public function index(Request $request)
         return redirect()->route('admin.schedules.index')->with('success','Занятие добавлено');
     }
 
+    // Редактирование
     public function edit(Schedule $schedule)
     {
         return view('admin.schedules.edit', [
@@ -96,6 +112,7 @@ public function index(Request $request)
         ]);
     }
 
+    // Обновление
     public function update(Request $request, Schedule $schedule)
     {
         $data = $request->validate([
@@ -112,6 +129,7 @@ public function index(Request $request)
         return redirect()->route('admin.schedules.index')->with('success','Расписание обновлено');
     }
 
+    // Удаление
     public function destroy(Schedule $schedule)
     {
         $schedule->delete();

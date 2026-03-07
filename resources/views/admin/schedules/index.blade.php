@@ -7,10 +7,10 @@
     <h2 class="mb-4">Расписание по преподавателям</h2>
 
     <form method="GET" class="row g-3 mb-4">
-        <div class="col-md-3">
-            <input type="text" name="teacher" class="form-control" placeholder="Поиск по преподавателю" value="{{ request('teacher') }}">
+        <div class="col-md-2">
+            <input type="text" name="teacher" class="form-control" placeholder="Преподаватель" value="{{ request('teacher') }}">
         </div>
-        <div class="col-md-3">
+        <div class="col-md-2">
             <select name="day_of_week" class="form-select">
                 <option value="">Все дни</option>
                 @foreach($days as $eng => $rus)
@@ -18,7 +18,7 @@
                 @endforeach
             </select>
         </div>
-        <div class="col-md-3">
+        <div class="col-md-2">
             <select name="period_id" class="form-select">
                 <option value="">Все периоды</option>
                 @foreach($periods as $id => $time)
@@ -26,6 +26,30 @@
                         {{ $id }} ({{ $time['start'] }}–{{ $time['end'] }})
                     </option>
                 @endforeach
+            </select>
+        </div>
+        <div class="col-md-2">
+            <input type="text" name="subject_id" class="form-control" placeholder="ID предмета" value="{{ request('subject_id') }}">
+        </div>
+        <div class="col-md-2">
+            <input type="text" name="classroom_id" class="form-control" placeholder="ID аудитории" value="{{ request('classroom_id') }}">
+        </div>
+        <div class="col-md-2">
+            <input type="text" name="building_id" class="form-control" placeholder="ID корпуса" value="{{ request('building_id') }}">
+        </div>
+        <div class="col-md-2">
+            <select name="sort_column" class="form-select">
+                <option value="day_of_week" @selected(request('sort_column')=='day_of_week')>День недели</option>
+                <option value="period_id" @selected(request('sort_column')=='period_id')>Период</option>
+                <option value="subject_id" @selected(request('sort_column')=='subject_id')>Предмет</option>
+                <option value="classroom_id" @selected(request('sort_column')=='classroom_id')>Аудитория</option>
+                <option value="building_id" @selected(request('sort_column')=='building_id')>Корпус</option>
+            </select>
+        </div>
+        <div class="col-md-2">
+            <select name="sort_direction" class="form-select">
+                <option value="asc" @selected(request('sort_direction')=='asc')>↑ Возрастание</option>
+                <option value="desc" @selected(request('sort_direction')=='desc')>↓ Убывание</option>
             </select>
         </div>
         <div class="col-md-3 d-flex">
