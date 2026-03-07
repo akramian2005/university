@@ -27,7 +27,7 @@ class AdminController extends Controller
     public function index()
     {
         $tables = [
-            'teachers',
+            // 'teachers',
             'subjects',
             'classrooms',
             'streams',

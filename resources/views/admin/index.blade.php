@@ -40,6 +40,23 @@
         </div>
     </div>
 
+    {{-- Кнопка для администрирования учителей --}}
+    <div class="col-md-4 mb-4">
+        <div class="card shadow-sm border-0 h-100">
+            <div class="card-body d-flex flex-column justify-content-between text-center">
+                <div>
+                    <h5 class="card-title text-primary">Учителя</h5>
+                    <p class="text-muted">Просмотр и редактирование преподавателей</p>
+                </div>
+                <a href="{{ route('admin.teachers.index') }}" 
+                class="btn btn-outline-success mt-3">
+                    Открыть учителей
+                </a>
+            </div>
+        </div>
+    </div>
+
+
     {{-- Кнопка для администрирования расписания --}}
     <div class="col-md-4 mb-4">
         <div class="card shadow-sm border-0 h-100">

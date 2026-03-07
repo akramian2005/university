@@ -10,7 +10,7 @@ use App\Http\Controllers\ScheduleController;
 use App\Http\Controllers\Admin\GroupsController;
 use App\Http\Controllers\Admin\AdminStudentController;
 use App\Http\Controllers\Admin\AdminScheduleController;
-
+use App\Http\Controllers\Admin\AdminTeacherController;
 /*
 |--------------------------------------------------------------------------
 | Главная страница
@@ -56,13 +56,23 @@ Route::prefix('admin')->middleware(['auth', 'admin'])->group(function () {
 
     // Администрирование студентов
     Route::get('/students', [AdminStudentController::class, 'index'])->name('admin.students.index');
-    Route::get('/students/create', [AdminStudentController::class, 'create'])->name('admin.students.create'); // форма
-    Route::post('/students', [AdminStudentController::class, 'store'])->name('admin.students.store'); // сохранение
+    Route::get('/students/create', [AdminStudentController::class, 'create'])->name('admin.students.create');
+    Route::post('/students', [AdminStudentController::class, 'store'])->name('admin.students.store');
     Route::get('/students/{student}', [AdminStudentController::class, 'show'])->name('admin.students.show');
     Route::put('/students/{student}', [AdminStudentController::class, 'update'])->name('admin.students.update');
 
+    // Администрирование расписания
     Route::resource('schedules', AdminScheduleController::class)->names('admin.schedules');
+
+    // 🔹 Администрирование учителей
+    Route::get('/teachers', [AdminTeacherController::class, 'index'])->name('admin.teachers.index');
+    Route::get('/teachers/create', [AdminTeacherController::class, 'create'])->name('admin.teachers.create');
+    Route::post('/teachers', [AdminTeacherController::class, 'store'])->name('admin.teachers.store');
+    Route::get('/teachers/{teacher}', [AdminTeacherController::class, 'show'])->name('admin.teachers.show');
+    Route::put('/teachers/{teacher}', [AdminTeacherController::class, 'update'])->name('admin.teachers.update');
+    Route::delete('/teachers/{teacher}', [AdminTeacherController::class, 'destroy'])->name('admin.teachers.destroy');
 });
+
 
 /*
 |--------------------------------------------------------------------------
