@@ -93,4 +93,49 @@ class AdminStudentController extends Controller
 
         return redirect()->back()->with('success', 'Данные студента и фото обновлены');
     }
+
+        // Форма добавления студента
+    public function create()
+    {
+        return view('admin.students.create', [
+            'genders' => Gender::all(),
+            'regions' => Region::all(),
+            'nationalities' => Nationality::all(),
+            'groups' => Group::all(),
+            'forms' => FormOfStudy::all(),
+        ]);
+    }
+
+    // Сохранение нового студента
+    public function store(Request $request)
+    {
+        $data = $request->validate([
+            'first_name' => 'required|string|max:255',
+            'last_name' => 'required|string|max:255',
+            'avatar' => 'nullable|image|mimes:jpeg,png,jpg|max:2048',
+            'date_born' => 'required|date',
+            'gender_id' => 'required|exists:genders,id',
+            'region_id' => 'required|exists:regions,id',
+            'nationality_id' => 'required|exists:nationalities,id',
+            'group_id' => 'required|exists:groups,id',
+            'form_of_study_id' => 'required|exists:form_of_studies,id',
+            'contract_price' => 'nullable|numeric',
+            'contract_paid' => 'nullable|numeric',
+            'password' => 'required|min:6',
+        ]);
+
+        // Обработка аватара
+        if ($request->hasFile('avatar')) {
+            $path = $request->file('avatar')->store('avatars', 'public');
+            $data['avatar'] = $path;
+        }
+
+        // Хэшируем пароль
+        $data['password'] = Hash::make($request->password);
+
+        Student::create($data);
+
+        return redirect()->route('admin.students.index')->with('success', 'Студент успешно добавлен');
+    }
+
 }

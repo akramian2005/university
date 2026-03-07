@@ -9,6 +9,7 @@ use App\Http\Controllers\RegistrationController;
 use App\Http\Controllers\ScheduleController;
 use App\Http\Controllers\Admin\GroupsController;
 use App\Http\Controllers\Admin\AdminStudentController;
+use App\Http\Controllers\Admin\AdminScheduleController;
 
 /*
 |--------------------------------------------------------------------------
@@ -55,8 +56,12 @@ Route::prefix('admin')->middleware(['auth', 'admin'])->group(function () {
 
     // Администрирование студентов
     Route::get('/students', [AdminStudentController::class, 'index'])->name('admin.students.index');
+    Route::get('/students/create', [AdminStudentController::class, 'create'])->name('admin.students.create'); // форма
+    Route::post('/students', [AdminStudentController::class, 'store'])->name('admin.students.store'); // сохранение
     Route::get('/students/{student}', [AdminStudentController::class, 'show'])->name('admin.students.show');
     Route::put('/students/{student}', [AdminStudentController::class, 'update'])->name('admin.students.update');
+
+    Route::resource('schedules', AdminScheduleController::class)->names('admin.schedules');
 });
 
 /*

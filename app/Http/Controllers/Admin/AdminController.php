@@ -36,7 +36,7 @@ class AdminController extends Controller
             'departments',
             'faculties',
             'specialities',
-            'schedule',
+            // 'schedules',
         ];
 
         return view('admin.index', compact('tables'));
