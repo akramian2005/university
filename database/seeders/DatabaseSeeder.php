@@ -43,15 +43,15 @@ class DatabaseSeeder extends Seeder
         ]);
 
         Nationality::insert([
-            ['name' => 'kyrgyz'], ['name' => 'russian'], ['name' => 'kazakh'],
-            ['name' => 'dungan'], ['name' => 'korean'], ['name' => 'uzbek'],
-            ['name' => 'ukranian'], ['name' => 'tadjik']
+            ['name' => 'кыргыз'], ['name' => 'русский'], ['name' => 'казах'],
+            ['name' => 'дунган'], ['name' => 'кореец'], ['name' => 'узбек'],
+            ['name' => 'украинец'], ['name' => 'таджик']
         ]);
 
         Region::insert([
-            ['name' => 'Bishkek'], ['name' => 'Osh'], ['name' => 'Chui'],
-            ['name' => 'Batken'], ['name' => 'Issik-Kul'], ['name' => 'Djalal-Abad'],
-            ['name' => 'Talas'], ['name' => 'Naryn']
+            ['name' => 'Бишкек'], ['name' => 'Ош'], ['name' => 'Чуй'],
+            ['name' => 'Баткен'], ['name' => 'Исик-Куль'], ['name' => 'Джалал-Абад'],
+            ['name' => 'Талас'], ['name' => 'Нарын']
         ]);
 
         // Фабрики для динамических данных

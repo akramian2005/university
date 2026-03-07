@@ -12,17 +12,20 @@ class GroupFactory extends Factory
 
     public function definition()
     {
-        // Генерируем 2-4 случайные заглавные буквы
+        // Массив русских букв
+        $lettersArray = ['А','Б','В','Г','Д','Е','Ж','З','И','К','Л','М','Н','О','П','Р','С','Т','У','Ф','Х','Ц','Ч','Ш','Щ','Э','Ю','Я'];
+
+        // Генерируем 2–4 случайные буквы
         $lettersCount = $this->faker->numberBetween(2, 4);
         $letters = '';
         for ($i = 0; $i < $lettersCount; $i++) {
-            $letters .= chr($this->faker->numberBetween(65, 90)); // ASCII A-Z
+            $letters .= $this->faker->randomElement($lettersArray);
         }
 
-        // Случайная цифра 1-10
+        // Случайная цифра 1–10
         $number = $this->faker->numberBetween(1, 10);
 
-        // Год 23-26
+        // Год 23–26
         $year = $this->faker->numberBetween(23, 26);
 
         return [

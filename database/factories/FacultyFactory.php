@@ -4,6 +4,7 @@ namespace Database\Factories;
 
 use Illuminate\Database\Eloquent\Factories\Factory;
 use App\Models\Faculty;
+use Faker\Factory as FakerFactory;
 
 class FacultyFactory extends Factory
 {
@@ -11,8 +12,10 @@ class FacultyFactory extends Factory
 
     public function definition()
     {
+        $faker = FakerFactory::create('ru_RU');
+
         return [
-            'name' => $this->faker->unique()->word,
+            'name' => $faker->unique()->word, // слово на русском
         ];
     }
 }
